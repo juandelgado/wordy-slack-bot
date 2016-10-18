@@ -1,0 +1,11 @@
+{
+  "name": "ustwo/wordybot",
+  "version": "0.1",
+  "description": "Wordy is a Slack bot that helps you stay clear of common, but emotionally charged for some, words.",
+  "main": "./src/index.js",
+  "author": "ustwo Fampany",
+  "license": "MIT",
+  "dependencies": {
+    "slackbots": "0.5.3"
+  }
+}

@@ -1,11 +1,17 @@
 {
-  "name": "ustwo/wordybot",
-  "version": "0.1",
+  "name": "@ustwo/wordybot",
+  "version": "0.0.1",
   "description": "Wordy is a Slack bot that helps you stay clear of common, but emotionally charged for some, words.",
   "main": "./src/index.js",
   "author": "ustwo Fampany",
   "license": "MIT",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
   "dependencies": {
     "slackbots": "0.5.3"
+  },
+  "devDependencies": {
+    "mocha": "^3.1.2"
   }
 }

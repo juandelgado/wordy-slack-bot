@@ -9,7 +9,7 @@ const bot = new SlackBot({
 const rules = new models.Rules();
 
 const expression = new RegExp(/guys/);
-const reaction = new reactions.ReactionDirectMessage();
+const reaction = new reactions.ReactionDirectMessage('Guys is not cool');
 rules.add(new models.Rule(expression, reaction));
 
 bot.on('start', function() {
@@ -38,7 +38,7 @@ bot.on('message', function(data) {
     const reaction = new models.LanguageChecker(rules).check(user_message);
 
     console.log(user_message);
-    console.log(reaction);
+    console.log(reaction.type);
 
     if (reaction.type != reactions.REACTION_NONE){
 
@@ -54,14 +54,7 @@ bot.on('message', function(data) {
 
           if (user.id == user_id){
 
-            const bot_message_params = {
-              as_user: false,
-              username: 'Wordy Bot'
-            }
-
-            const message_to_user = 'You said: \"' + user_message.text + '\". Uncool.';
-            bot.postMessageToUser(user.name, message_to_user, bot_message_params);
-
+            reaction.execute(user.name, bot);
             break;
           }
         }

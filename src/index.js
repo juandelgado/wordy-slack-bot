@@ -1,8 +1,16 @@
-var SlackBot = require('slackbots');
+const SlackBot = require('slackbots');
+const models = require('./models.js');
+const reactions = require('./reactions.js');
 
-var bot = new SlackBot({
+const bot = new SlackBot({
     token: process.env.SLACK_API_TOKEN
 });
+
+const rules = new models.Rules();
+
+const expression = new RegExp(/guys/);
+const reaction = new reactions.ReactionDirectMessage();
+rules.add(new models.Rule(expression, reaction));
 
 bot.on('start', function() {
   console.log('Wordy Bot started');
@@ -22,18 +30,23 @@ bot.on('error', function() {
 
 bot.on('message', function(data) {
 
-  if (data.type == 'message'){
+  // BOTS come with with undefined user ID
+  if (data.type == 'message' && data.user != undefined){
 
-    var user_id = data.user;
-    var user_message = data.text;
+    const user_id = data.user;
+    const user_message = new models.UserMessage('jd', user_id, data.text);
+    const reaction = new models.LanguageChecker(rules).check(user_message);
 
-    if(user_message == 'guys'){
+    console.log(user_message);
+    console.log(reaction);
 
-      console.log('Offending message: ' + user_message);
+    if (reaction.type != reactions.REACTION_NONE){
+
+      console.log('Offending message');
 
       bot.getUsers().then(function(users_data){
 
-        var users = users_data.members;
+        const users = users_data.members;
 
         for(var x = 0; x < users.length; x++){
 
@@ -41,12 +54,12 @@ bot.on('message', function(data) {
 
           if (user.id == user_id){
 
-            var bot_message_params = {
+            const bot_message_params = {
               as_user: false,
               username: 'Wordy Bot'
             }
 
-            var message_to_user = 'You said: \"' + user_message + '\". Uncool.';
+            const message_to_user = 'You said: \"' + user_message.text + '\". Uncool.';
             bot.postMessageToUser(user.name, message_to_user, bot_message_params);
 
             break;

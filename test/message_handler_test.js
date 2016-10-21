@@ -35,6 +35,6 @@ describe("Message handler", function(){
     const message_handler = new handler.MessageHandler();
     const user_message = message_handler.getUserMessage(slack_data);
 
-    user_message.should.be.a.NoMessage;
+    user_message.should.be.instanceOf(models.NoMessage);
   });
 });

@@ -12,6 +12,7 @@
     "slackbots": "0.5.3"
   },
   "devDependencies": {
-    "mocha": "^3.1.2"
+    "mocha": "^3.1.2",
+    "should": ""
   }
 }

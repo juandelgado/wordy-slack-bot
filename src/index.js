@@ -1,6 +1,8 @@
 const SlackBot = require('slackbots');
 const models = require('./models.js');
 const reactions = require('./reactions.js');
+const handler = require('./message_handler.js');
+const checker = require('./language_checker.js');
 
 const bot = new SlackBot({
     token: process.env.SLACK_API_TOKEN
@@ -28,17 +30,15 @@ bot.on('error', function() {
   console.error('ERROR WHILE CONNECTING TO SLACK :sad_face:');
 });
 
-bot.on('message', function(data) {
+bot.on('message', function(slack_data) {
 
-  // BOTS come with with undefined user ID
-  if (data.type == 'message' && data.user != undefined){
+  const message_handler = new handler.MessageHandler();
 
-    const user_id = data.user;
-    const user_message = new models.UserMessage('jd', user_id, data.text);
-    const reaction = new models.LanguageChecker(rules).check(user_message);
+  const user_message = message_handler.getUserMessage(slack_data);
 
-    console.log(user_message);
-    console.log(reaction.type);
+  if (user_message instanceof models.UserMessage){
+
+    const reaction = new checker.LanguageChecker(rules).check(user_message);
 
     if (reaction.type != reactions.REACTION_NONE){
 
@@ -52,7 +52,7 @@ bot.on('message', function(data) {
 
           var user = users[x];
 
-          if (user.id == user_id){
+          if (user.id == user_message.user_id){
 
             reaction.execute(user.name, bot);
             break;

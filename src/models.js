@@ -11,6 +11,16 @@ UserMessage.prototype.toString = function(){
   return 'UserMessage []'
 }
 
+UserMessage.prototype.equals = function (message) {
+  return this.user_name == message.user_name &&
+    this.user_id == message.user_id &&
+    this.text == message.text;
+};
+
+function NoMessage(){
+
+}
+
 function Rule(expression, reaction){
   this.expression = expression;
   this.reaction = reaction;
@@ -30,6 +40,7 @@ Rules.prototype.add = function(rule){
 
 module.exports = {
   UserMessage,
+  NoMessage,
   Rules,
   Rule
 };

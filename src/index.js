@@ -40,7 +40,7 @@ bot.on('message', function(slack_data) {
 
     const reaction = new checker.LanguageChecker(rules).check(user_message);
 
-    if (reaction.type != reactions.REACTION_NONE){
+    if (reaction instanceof reactions.ReactionDirectMessage){
 
       console.log('Offending message');
 

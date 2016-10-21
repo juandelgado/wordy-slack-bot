@@ -1,4 +1,5 @@
 const assert = require('assert');
+const should = require('should');
 const models = require('../src/models.js');
 const reactions = require('../src/reactions.js');
 const checker = require('../src/language_checker.js');
@@ -8,17 +9,17 @@ describe("Message / Reaction", function(){
   it('Should return no action if no offending pattern found', function(){
 
     const user_message = new models.UserMessage('jd', 'alsdkjasl', 'hello');
-    const action = new checker.LanguageChecker(defaultRules()).check(user_message);
+    const reaction = new checker.LanguageChecker(defaultRules()).check(user_message);
 
-    assert.equal(action.type, reactions.REACTION_NONE);
+    reaction.should.be.instanceOf(reactions.ReactionNone);
   });
 
   it('Should return DM action if offending pattern found', function(){
 
     const user_message = new models.UserMessage('jd', 'alsdkjasl', 'hello guys');
-    const action = new checker.LanguageChecker(defaultRules()).check(user_message);
+    const reaction = new checker.LanguageChecker(defaultRules()).check(user_message);
 
-    assert.equal(action.type, reactions.REACTION_DIRECT_MESSAGE);
+    reaction.should.be.instanceOf(reactions.ReactionDirectMessage);
   });
 });
 

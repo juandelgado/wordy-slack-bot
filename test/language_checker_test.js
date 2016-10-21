@@ -8,7 +8,7 @@ describe("Message / Reaction", function(){
 
   it('Should return no action if no offending pattern found', function(){
 
-    const user_message = new models.UserMessage('jd', 'alsdkjasl', 'hello');
+    const user_message = new models.UserMessage('alsdkjasl', 'hello');
     const reaction = new checker.LanguageChecker(defaultRules()).check(user_message);
 
     reaction.should.be.instanceOf(reactions.ReactionNone);
@@ -16,7 +16,7 @@ describe("Message / Reaction", function(){
 
   it('Should return DM action if offending pattern found', function(){
 
-    const user_message = new models.UserMessage('jd', 'alsdkjasl', 'hello guys');
+    const user_message = new models.UserMessage('alsdkjasl', 'hello guys');
     const reaction = new checker.LanguageChecker(defaultRules()).check(user_message);
 
     reaction.should.be.instanceOf(reactions.ReactionDirectMessage);

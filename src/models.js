@@ -1,19 +1,12 @@
 const reactions = require('./reactions.js');
 
-function UserMessage(user_name, user_id, text){
-
-  this.user_name = user_name;
+function UserMessage(user_id, text){
   this.user_id = user_id;
   this.text = text;
 }
 
-UserMessage.prototype.toString = function(){
-  return 'UserMessage []'
-}
-
 UserMessage.prototype.equals = function (message) {
-  return this.user_name == message.user_name &&
-    this.user_id == message.user_id &&
+  return this.user_id == message.user_id &&
     this.text == message.text;
 };
 

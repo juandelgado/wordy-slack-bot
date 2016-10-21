@@ -16,7 +16,7 @@ describe("Message handler", function(){
     const message_handler = new handler.MessageHandler();
     const user_message = message_handler.getUserMessage(slack_data);
 
-    const expected_user_message = new models.UserMessage('USER_NAME', 'user_id', 'TEXT');
+    const expected_user_message = new models.UserMessage(slack_data.user, slack_data.text);
 
     user_message.equals(expected_user_message).should.be.true();
   });

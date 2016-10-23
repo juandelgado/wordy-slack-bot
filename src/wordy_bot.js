@@ -36,6 +36,9 @@ function WordyBot(slackBot, rules){
 
         console.log('Offending message');
 
+        // TODO: this is ugly because apparently the only way to send a DM
+        // is via the user name, which doesn't come from the slack_data object received.
+        // Can't really belive that, so let's investigate.
         slackBot.getUsers().then(function(users_data){
 
           const users = users_data.members;

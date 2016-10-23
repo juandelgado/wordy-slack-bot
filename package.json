@@ -6,12 +6,16 @@
   "author": "ustwo Fampany",
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha",
+    "lint": "./node_modules/eslint/bin/eslint.js src/"
   },
   "dependencies": {
     "slackbots": "0.5.3"
   },
   "devDependencies": {
+    "eslint": "^3.8.1",
+    "eslint-config-airbnb-base": "^9.0.0",
+    "eslint-plugin-import": "^2.0.1",
     "mocha": "^3.1.2",
     "should": "",
     "sinon": ""

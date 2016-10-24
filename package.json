@@ -6,7 +6,7 @@
   "author": "ustwo Fampany",
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha",
+    "test": "./node_modules/mocha/bin/mocha test/ --use_strict",
     "lint": "./node_modules/eslint/bin/eslint.js src/"
   },
   "dependencies": {

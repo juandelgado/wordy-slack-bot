@@ -1,26 +1,25 @@
 const reactions = require('./reactions.js');
 
-function LanguageChecker(rules){
+function LanguageChecker(rules) {
   this.rules = rules;
 }
 
-LanguageChecker.prototype.check = function(message){
+LanguageChecker.prototype.check = function (message) {
+  let reaction = new reactions.ReactionNone();
+  let x = 0;
 
-  var reaction = new reactions.ReactionNone();
-
-  for(var x = 0; x < this.rules.rules.length; x++){
-
+  for (; x < this.rules.rules.length; x += 1) {
     const rule = this.rules.rules[x];
 
-    if (rule.expression.test(message.text)){
+    if (rule.expression.test(message.text)) {
       reaction = rule.reaction;
       break;
     }
   }
 
   return reaction;
-}
+};
 
 module.exports = {
-  LanguageChecker
+  LanguageChecker,
 };

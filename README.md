@@ -17,6 +17,9 @@ Everyone part of Wordy's community, codebase and issue tracker is expected to fo
 ## Configuration
 
 * Configuration: needs Slack bot token as an ENV var named `SLACK_API_TOKEN`. You can create a bot and get a token in https://YOURSLACK.slack.com/services/new/bot. For more information you can read [Slack Bots documentation](https://api.slack.com/bot-users). 
+
+## Running Wordy
+* Please note that you need to run Node in strict mode: `node --use_strict src/index.js`
 * Deployment: TBD, likely to be Docker based.
 
 ## Development

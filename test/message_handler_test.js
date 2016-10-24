@@ -13,8 +13,7 @@ describe("Message handler", function(){
       text: 'TEXT'
     };
 
-    const message_handler = new handler.MessageHandler();
-    const user_message = message_handler.getUserMessage(slack_data);
+    const user_message = handler.MessageHandler.getUserMessage(slack_data);
 
     const expected_user_message = new models.UserMessage(slack_data.user, slack_data.text);
 
@@ -32,8 +31,7 @@ describe("Message handler", function(){
       text: 'TEXT'
     };
 
-    const message_handler = new handler.MessageHandler();
-    const user_message = message_handler.getUserMessage(slack_data);
+    const user_message = handler.MessageHandler.getUserMessage(slack_data);
 
     user_message.should.be.instanceOf(models.NoMessage);
   });

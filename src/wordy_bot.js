@@ -4,26 +4,24 @@ const models = require('./models.js');
 const reactions = require('./reactions.js');
 
 function WordyBot(slackBot, rules) {
-  slackBot.on('start', function () {
+  slackBot.on('start', () => {
     console.log('Wordy Bot started');
   });
 
-  slackBot.on('open', function () {
+  slackBot.on('open', () => {
     console.log('Connection is open');
   });
 
-  slackBot.on('close', function () {
+  slackBot.on('close', () => {
     console.log('Connection is CLOSED');
   });
 
-  slackBot.on('error', function () {
+  slackBot.on('error', () => {
     console.error('ERROR WHILE CONNECTING TO SLACK :sad_face:');
   });
 
-  slackBot.on('message', function (slackData) {
-    const messageHandler = new handler.MessageHandler();
-
-    const userMessage = messageHandler.getUserMessage(slackData);
+  slackBot.on('message', (slackData) => {
+    const userMessage = handler.MessageHandler.getUserMessage(slackData);
 
     if (userMessage instanceof models.UserMessage) {
       const reaction = new checker.LanguageChecker(rules).check(userMessage);
@@ -34,7 +32,7 @@ function WordyBot(slackBot, rules) {
         // TODO: this is ugly because apparently the only way to send a DM
         // is via the user name, which doesn't come from the slack_data object received.
         // Can't really belive that, so let's investigate.
-        slackBot.getUsers().then(function (usersData) {
+        slackBot.getUsers().then((usersData) => {
           const users = usersData.members;
           let x = 0;
           let user = null;

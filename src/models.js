@@ -1,29 +1,34 @@
-function UserMessage(userId, text) {
-  this.userId = userId;
-  this.text = text;
+class UserMessage {
+  constructor(userId, text) {
+    this.userId = userId;
+    this.text = text;
+  }
+
+  equals(message) {
+    return this.userId === message.userId &&
+      this.text === message.text;
+  }
 }
 
-UserMessage.prototype.equals = function (message) {
-  return this.userId === message.userId &&
-    this.text === message.text;
-};
-
-function NoMessage() {
-
+class NoMessage {
 }
 
-function Rule(expression, reaction) {
-  this.expression = expression;
-  this.reaction = reaction;
+class Rule {
+  constructor(expression, reaction) {
+    this.expression = expression;
+    this.reaction = reaction;
+  }
 }
 
-function Rules() {
-  this.rules = [];
-}
+class Rules {
+  constructor() {
+    this.rules = [];
+  }
 
-Rules.prototype.add = function (rule) {
-  this.rules.push(rule);
-};
+  add(rule) {
+    this.rules.push(rule);
+  }
+}
 
 module.exports = {
   UserMessage,

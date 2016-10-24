@@ -1,4 +1,4 @@
-function ReactionNone() {
+class ReactionNone {
 }
 
 class ReactionDirectMessage {

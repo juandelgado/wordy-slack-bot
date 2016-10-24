@@ -14,19 +14,23 @@ Check our [contributing guidelines](./CONTRIBUTING.md).
 
 Everyone part of Wordy's community, codebase and issue tracker is expected to follow our [Code of Conduct](./CODE_OF_CONDUCT.md).
 
-## Install
-
-TBD, likely to be Docker based.
-
-## Getting started
-
-### Get a Slack bot token
-
-### Deploy!
-
 ## Configuration
 
-* Needs Slack bot token as an ENV var named `SLACK_API_TOKEN`
+* Configuration: needs Slack bot token as an ENV var named `SLACK_API_TOKEN`. You can create a bot and get a token in https://YOURSLACK.slack.com/services/new/bot. For more information you can read [Slack Bots documentation](https://api.slack.com/bot-users). 
+* Deployment: TBD, likely to be Docker based.
+
+## Development
+
+Only if you want to modify / tinker with Wordy you'll need to install its dev dependencies:
+
+ * Requisites: Node and NPM.
+ * `git clone git@github.com:ustwo/wordy-slack-bot.git`
+ * `npm install`
+
+## Test
+
+ * `npm test` to run unit tests.
+ * `npm run lint` to check source code format.
 
 ## Documentation
 

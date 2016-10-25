@@ -5,6 +5,8 @@ const reactions = require('./reactions.js');
 
 class WordyBot {
   constructor(slackBot, rules) {
+    // TODO: extract the anonymous callbacks from each slackBot.on call
+    // so they can be tested outside the event cycle
     slackBot.on('start', () => {
       console.log('Wordy Bot started');
     });

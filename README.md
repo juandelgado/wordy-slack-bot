@@ -16,7 +16,7 @@ Everyone part of Wordy's community, codebase and issue tracker is expected to fo
 
 ## Configuration
 
-Needs Slack bot token as an ENV var named `SLACK_API_TOKEN`. You can create a bot and get a token in https://YOURSLACK.slack.com/services/new/bot. For more information you can read [Slack Bots documentation](https://api.slack.com/bot-users). 
+Needs Slack bot token as an ENV var named `SLACK_TOKEN`. You can create a bot and get a token in https://YOURSLACK.slack.com/services/new/bot. For more information you can read [Slack Bots documentation](https://api.slack.com/bot-users). 
 
 ## Development
 

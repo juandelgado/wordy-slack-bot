@@ -5,7 +5,7 @@ const reactions = require('./reactions.js');
 
 // TODO: error out if no token found
 const slackBot = new SlackBot({
-  token: process.env.SLACK_API_TOKEN,
+  token: process.env.SLACK_TOKEN,
 });
 
 const rules = new models.Rules();

@@ -19,8 +19,8 @@ class WordyBot {
       console.log('Connection is CLOSED');
     });
 
-    slackBot.on('error', () => {
-      console.error('ERROR WHILE CONNECTING TO SLACK :sad_face:');
+    slackBot.on('error', (error) => {
+      console.error(`ERROR WHILE CONNECTING TO SLACK: ${error}`);
     });
 
     slackBot.on('message', (slackData) => {

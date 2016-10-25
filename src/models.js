@@ -1,39 +1,38 @@
-const reactions = require('./reactions.js');
+class UserMessage {
+  constructor(userId, text) {
+    this.userId = userId;
+    this.text = text;
+  }
 
-function UserMessage(user_id, text){
-  this.user_id = user_id;
-  this.text = text;
+  equals(message) {
+    return this.userId === message.userId &&
+      this.text === message.text;
+  }
 }
 
-UserMessage.prototype.equals = function (message) {
-  return this.user_id == message.user_id &&
-    this.text == message.text;
-};
-
-function NoMessage(){
-
+class NoMessage {
 }
 
-function Rule(expression, reaction){
-  this.expression = expression;
-  this.reaction = reaction;
+class Rule {
+  constructor(expression, reaction) {
+    this.expression = expression;
+    this.reaction = reaction;
+  }
 }
 
-Rule.prototype.toString = function(){
-  return 'Rule [' + this.expression + ', ' + this.reaction + ']'
-}
+class Rules {
+  constructor() {
+    this.rules = [];
+  }
 
-function Rules(){
-  this.rules = new Array();
-}
-
-Rules.prototype.add = function(rule){
-  this.rules.push(rule);
+  add(rule) {
+    this.rules.push(rule);
+  }
 }
 
 module.exports = {
   UserMessage,
   NoMessage,
   Rules,
-  Rule
+  Rule,
 };

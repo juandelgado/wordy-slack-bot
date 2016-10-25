@@ -6,8 +6,8 @@
   "author": "ustwo Fampany",
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha",
-    "lint": "./node_modules/eslint/bin/eslint.js src/"
+    "test": "./node_modules/mocha/bin/mocha test/ --use_strict",
+    "lint": "./node_modules/eslint/bin/eslint.js src/ --no-ignore .eslintrc.js"
   },
   "dependencies": {
     "slackbots": "0.5.3"

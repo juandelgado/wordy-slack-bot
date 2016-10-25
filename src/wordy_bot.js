@@ -1,64 +1,60 @@
-const SlackBot = require('slackbots');
 const handler = require('./message_handler.js');
 const checker = require('./language_checker.js');
 const models = require('./models.js');
 const reactions = require('./reactions.js');
 
-function WordyBot(slackBot, rules){
+class WordyBot {
+  constructor(slackBot, rules) {
+    // TODO: extract the anonymous callbacks from each slackBot.on call
+    // so they can be tested outside the event cycle
+    slackBot.on('start', () => {
+      console.log('Wordy Bot started');
+    });
 
-  slackBot.on('start', function() {
-    console.log('Wordy Bot started');
-  });
+    slackBot.on('open', () => {
+      console.log('Connection is open');
+    });
 
-  slackBot.on('open', function() {
-    console.log('Connection is open');
-  });
+    slackBot.on('close', () => {
+      console.log('Connection is CLOSED');
+    });
 
-  slackBot.on('close', function() {
-    console.log('Connection is CLOSED');
-  });
+    slackBot.on('error', () => {
+      console.error('ERROR WHILE CONNECTING TO SLACK :sad_face:');
+    });
 
-  slackBot.on('error', function() {
-    console.error('ERROR WHILE CONNECTING TO SLACK :sad_face:');
-  });
+    slackBot.on('message', (slackData) => {
+      const userMessage = handler.MessageHandler.getUserMessage(slackData);
 
-  slackBot.on('message', function(slack_data) {
+      if (userMessage instanceof models.UserMessage) {
+        const reaction = new checker.LanguageChecker(rules).check(userMessage);
 
-    const message_handler = new handler.MessageHandler();
+        if (reaction instanceof reactions.ReactionDirectMessage) {
+          console.log('Offending message');
 
-    const user_message = message_handler.getUserMessage(slack_data);
+          // TODO: this is ugly because apparently the only way to send a DM
+          // is via the user name, which doesn't come from the slack_data object received.
+          // Can't really belive that, so let's investigate.
+          slackBot.getUsers().then((usersData) => {
+            const users = usersData.members;
+            let x = 0;
+            let user = null;
 
-    if (user_message instanceof models.UserMessage){
+            for (; x < users.length; x += 1) {
+              user = users[x];
 
-      const reaction = new checker.LanguageChecker(rules).check(user_message);
-
-      if (reaction instanceof reactions.ReactionDirectMessage){
-
-        console.log('Offending message');
-
-        // TODO: this is ugly because apparently the only way to send a DM
-        // is via the user name, which doesn't come from the slack_data object received.
-        // Can't really belive that, so let's investigate.
-        slackBot.getUsers().then(function(users_data){
-
-          const users = users_data.members;
-
-          for(var x = 0; x < users.length; x++){
-
-            var user = users[x];
-
-            if (user.id == user_message.user_id){
-
-              reaction.execute(user.name, slackBot);
-              break;
+              if (user.id === userMessage.userId) {
+                reaction.execute(user.name, slackBot);
+                break;
+              }
             }
-          }
-        });
+          });
+        }
       }
-    }
-  });
+    });
+  }
 }
 
 module.exports = {
-  WordyBot
-}
+  WordyBot,
+};

@@ -1,23 +1,24 @@
-function ReactionNone(){
+class ReactionNone {
 }
 
-function ReactionDirectMessage(message){
-  this.message = message;
-}
-
-// YES, this needs the user_name, sadly not the ID as per:
-// https://github.com/mishk0/slack-bot-api
-ReactionDirectMessage.prototype.execute = function(user_name, slackBot){
-
-  const bot_message_params = {
-    as_user: false,
-    username: 'Wordy Bot'
+class ReactionDirectMessage {
+  constructor(message) {
+    this.message = message;
   }
 
-  slackBot.postMessageToUser(user_name, this.message, bot_message_params);
+  // YES, this needs the user_name, sadly not the ID as per:
+  // https://github.com/mishk0/slack-bot-api
+  execute(userName, slackBot) {
+    const botMessageParams = {
+      as_user: false,
+      username: 'Wordy Bot',
+    };
+
+    slackBot.postMessageToUser(userName, this.message, botMessageParams);
+  }
 }
 
 module.exports = {
   ReactionNone,
-  ReactionDirectMessage
+  ReactionDirectMessage,
 };

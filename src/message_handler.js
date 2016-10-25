@@ -1,19 +1,17 @@
 const models = require('./models.js');
 
-function MessageHandler(){
-}
+class MessageHandler {
+  static getUserMessage(slackData) {
+    let userMessage = new models.NoMessage();
 
-MessageHandler.prototype.getUserMessage = function (slack_data) {
+    if (slackData.type === 'message' && slackData.user !== undefined) {
+      userMessage = new models.UserMessage(slackData.user, slackData.text);
+    }
 
-  var user_message = new models.NoMessage();
-
-  if (slack_data.type == 'message' && slack_data.user != undefined){
-    user_message = new models.UserMessage(slack_data.user, slack_data.text);
+    return userMessage;
   }
-
-  return user_message;
-};
+}
 
 module.exports = {
-  MessageHandler
-}
+  MessageHandler,
+};

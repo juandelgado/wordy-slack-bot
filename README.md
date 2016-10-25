@@ -16,19 +16,33 @@ Everyone part of Wordy's community, codebase and issue tracker is expected to fo
 
 ## Configuration
 
-* Configuration: needs Slack bot token as an ENV var named `SLACK_API_TOKEN`. You can create a bot and get a token in https://YOURSLACK.slack.com/services/new/bot. For more information you can read [Slack Bots documentation](https://api.slack.com/bot-users). 
-
-## Running Wordy
-* Please note that you need to run Node in strict mode: `node --use_strict src/index.js`
-* Deployment: TBD, likely to be Docker based.
+Needs Slack bot token as an ENV var named `SLACK_API_TOKEN`. You can create a bot and get a token in https://YOURSLACK.slack.com/services/new/bot. For more information you can read [Slack Bots documentation](https://api.slack.com/bot-users). 
 
 ## Development
 
 Only if you want to modify / tinker with Wordy you'll need to install its dev dependencies:
 
- * Requisites: Node and NPM.
+ * Requisites: Node and NPM. Docker is optional.
  * `git clone git@github.com:ustwo/wordy-slack-bot.git`
  * `npm install`
+
+## Running Wordy
+
+Please make sure you have gone first through the [Configuration requirements](#configuration).
+
+### The right way (for some)
+
+ * Install Docker.
+ * Build the image: `make`
+ * Run the image: `make run`
+
+### The easy way (for some)
+
+Wordy is a Node app so if you don't want to go down the Docker route for whatever reason, go through the [Development requirements](#development) and then run:
+
+```sh
+node --use_strict src/index.js
+```
 
 ## Test
 

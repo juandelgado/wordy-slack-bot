@@ -1,3 +1,5 @@
+"use strict"
+
 class UserMessage {
   constructor(userId, text) {
     this.userId = userId;

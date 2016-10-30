@@ -11,4 +11,4 @@ RUN npm install
 # Bundle app source
 COPY src/*.js /usr/src/app/
 
-CMD [ "node", "--use_strict", "index.js" ]
+CMD [ "node", "index.js" ]

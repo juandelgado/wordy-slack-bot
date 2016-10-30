@@ -6,11 +6,12 @@
   "author": "ustwo Fampany",
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/ --use_strict",
+    "test": "./node_modules/mocha/bin/mocha test/",
     "lint": "./node_modules/eslint/bin/eslint.js src/ --no-ignore .eslintrc.js"
   },
   "dependencies": {
-    "slackbots": "0.5.3"
+    "slackbots": "0.5.3",
+    "firebase": ""
   },
   "devDependencies": {
     "eslint": "^3.8.1",

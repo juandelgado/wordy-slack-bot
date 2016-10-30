@@ -16,7 +16,9 @@ Everyone part of Wordy's community, codebase and issue tracker is expected to fo
 
 ## Configuration
 
-Needs Slack bot token as an ENV var named `SLACK_TOKEN`. You can create a bot and get a token in https://YOURSLACK.slack.com/services/new/bot. For more information you can read [Slack Bots documentation](https://api.slack.com/bot-users). 
+ * `SLACK_TOKEN`: Slack Bot token. You can create a bot and get a token in https://YOURSLACK.slack.com/services/new/bot. For more information you can read [Slack Bots documentation](https://api.slack.com/bot-users).
+ * `FIREBASE_JSON_CONFIG`: path to the Firebase config JSON file.
+ * `FIREBASE_DB_URL`: Firebase's database URL. 
 
 ## Development
 
@@ -41,7 +43,7 @@ Please make sure you have gone first through the [Configuration requirements](#c
 Wordy is a Node app so if you don't want to go down the Docker route for whatever reason, go through the [Development requirements](#development) and then run:
 
 ```sh
-node --use_strict src/index.js
+node src/index.js
 ```
 
 ## Test

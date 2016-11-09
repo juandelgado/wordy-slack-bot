@@ -1,5 +1,8 @@
 "use strict"
 
+// Reference:
+// https://firebase.google.com/docs/database/admin/start
+
 class FirebaseDataStore {
   constructor(db){
     this.db = db;
@@ -13,6 +16,20 @@ class FirebaseDataStore {
     }, function(errorObject) {
       console.log("Firebase DataStore error: " + errorObject);
       errorCallback(errorObject.code);
+    });
+  }
+
+  registerUser(userId, isInterested, successCallback, errorCallback) {
+    this.db.ref(`users/${userId}`).update({interested: isInterested}, function(error){
+      if (error) {
+        if (errorCallback){
+          errorCallback(error);
+        }
+      } else {
+        if (successCallback){
+          successCallback();
+        }
+      }
     });
   }
 }

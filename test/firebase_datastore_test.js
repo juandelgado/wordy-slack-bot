@@ -13,7 +13,8 @@ describe('Firebase Data Store', function(){
     // Bit too much set up :|
     mock_db = {ref: function(){}};
     mock_once = sandbox.spy();
-    mock_ref = sandbox.stub(mock_db, 'ref').returns({once: mock_once});
+    mock_update = sandbox.spy();
+    mock_ref = sandbox.stub(mock_db, 'ref').returns({once: mock_once, update: mock_update});
     mock_success_callback = sandbox.spy();
     mock_error_callback = sandbox.spy();
 
@@ -69,6 +70,37 @@ describe('Firebase Data Store', function(){
     mock_once.args[0][2](errorObject);
 
     assert(mock_error_callback.calledWith(errorObject.code));
+  });
+
+  it('Should appropriately opt in a user', function(){
+    ds.registerUser('USER_ID', true);
+
+    assert(mock_ref.calledWith('users/USER_ID'));
+    assert(mock_update.calledWith({interested: true}));
+  });
+
+  it('Should appropriately opt out a user', function(){
+    ds.registerUser('USER_ID', false);
+
+    assert(mock_ref.calledWith('users/USER_ID'));
+    assert(mock_update.calledWith({interested: false}));
+  });
+
+  it('Should call the success callback after successful update', function(){
+    ds.registerUser('USER_ID', false, mock_success_callback);
+
+    mock_update.args[0][1]();
+
+    assert(mock_success_callback.calledWithExactly());
+  });
+
+  it('Should call the error callback after unsuccessful update', function(){
+    ds.registerUser('USER_ID', false, mock_success_callback, mock_error_callback);
+
+    const db_error = 'XXXXX';
+    mock_update.args[0][1](db_error);
+
+    assert(mock_error_callback.calledWithExactly(db_error));
   });
 });
 

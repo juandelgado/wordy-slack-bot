@@ -28,15 +28,19 @@ class WordyWebServer {
       switch (command) {
         case '/wordy-in':
           this.storage.registerUser(userId, true, () => {
+            console.log(`User ${userId} successfully registered`);
             res.send('Thank you for registering.');
           }, (error) => {
+            console.error(`Error trying to register user ${userId}, error: ${error}`);
             res.send(`Ooops, something went wrong: ${error}`);
           });
           break;
         case '/wordy-out':
           this.storage.registerUser(userId, false, () => {
+            console.log(`User ${userId} successfully unregistered`);
             res.send('Sad to see you go.');
           }, (error) => {
+            console.error(`Error trying to unregister user ${userId}, error: ${error}`);
             res.send(`Ooops, something went wrong: ${error}`);
           });
           break;

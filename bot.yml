@@ -1,16 +1,27 @@
+name: Wordy Bot
 config:
   - name: FIREBASE_PROJECT_ID
+    friendly_name: Firebase project ID
+    info: Firebase project ID
     type: secret
-    global: false
+    global: true
   - name: FIREBASE_CLIENT_EMAIL
+    friendly_name: Firebase client email
+    info: Firebase client email
     type: secret
-    global: false
+    global: true
   - name: FIREBASE_PRIVATE_KEY
+    friendly_name: Firebase private key
+    info: Firebase private key
     type: secret
-    global: false
+    global: true
   - name: FIREBASE_DB_URL
+    friendly_name: Firebase DB URL
+    info: Firebase DB URL
     type: secret
-    global: false
+    global: true
   - name: WORDY_WEBSERVER_HOST
-    default: '0.0.0.0'
-    global: false
+    friendly_name: Webserver host
+    info: Host for the local webserver that handles commands
+    default: 0.0.0.0
+    global: true

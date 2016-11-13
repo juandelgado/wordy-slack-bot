@@ -27,14 +27,14 @@ class WordyWebServer {
 
       switch (command) {
         case '/wordy-in':
-          registerUser(userId, () => {
+          this.storage.registerUser(userId, true, () => {
             res.send('Thank you for registering.');
           }, (error) => {
             res.send(`Ooops, something went wrong: ${error}`);
           });
           break;
         case '/wordy-out':
-          unregisterUser(userId, () => {
+          this.storage.registerUser(userId, false, () => {
             res.send('Sad to see you go.');
           }, (error) => {
             res.send(`Ooops, something went wrong: ${error}`);
@@ -49,14 +49,6 @@ class WordyWebServer {
     this.webapp.listen(port, host, () => {
       console.log(`Wordy Web App up and running at http://${host}:${port}`);
     });
-  }
-
-  registerUser(userId, successCallback, errorCallback) {
-    this.storage.registerUser(userId, true, successCallback, errorCallback);
-  }
-
-  unregisterUser(userId, successCallback, errorCallback) {
-    this.storage.registerUser(userId, false, successCallback, errorCallback);
   }
 }
 

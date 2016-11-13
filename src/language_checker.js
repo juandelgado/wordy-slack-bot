@@ -1,3 +1,5 @@
+"use strict"
+
 const reactions = require('./reactions.js');
 
 class LanguageChecker {

@@ -6,10 +6,15 @@
   "author": "ustwo Fampany",
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/ --use_strict",
+    "test": "./node_modules/mocha/bin/mocha test/",
     "lint": "./node_modules/eslint/bin/eslint.js src/ --no-ignore .eslintrc.js"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "firebase": "^3.6.0",
+    "firebase-admin": "^4.0.1",
+    "helmet": "^3.1.0",
     "slackbots": "0.5.3"
   },
   "devDependencies": {

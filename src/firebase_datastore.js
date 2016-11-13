@@ -9,14 +9,13 @@ class FirebaseDataStore {
   }
 
   isUserInterested(userId, successCallback, errorCallback) {
-    this.db.ref(`users/${userId}`).once('value', function(data) {
-
+    this.db.ref(`users/${userId}`).once('value', (data) => {
       if (successCallback){
         const userData = data.val();
         const interested = (userData != null)? userData.interested : false;
         successCallback(interested);
       }
-    }, function(errorObject) {
+    }, (errorObject) => {
       console.log("Firebase DataStore error: " + errorObject);
       if (errorCallback) {
         errorCallback(errorObject.code);

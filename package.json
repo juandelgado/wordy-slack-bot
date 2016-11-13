@@ -10,8 +10,12 @@
     "lint": "./node_modules/eslint/bin/eslint.js src/ --no-ignore .eslintrc.js"
   },
   "dependencies": {
-    "slackbots": "0.5.3",
-    "firebase": ""
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "firebase": "^3.6.0",
+    "firebase-admin": "^4.0.1",
+    "helmet": "^3.1.0",
+    "slackbots": "0.5.3"
   },
   "devDependencies": {
     "eslint": "^3.8.1",

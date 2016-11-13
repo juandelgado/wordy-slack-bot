@@ -35,7 +35,7 @@ class WordyBot {
         if (reaction instanceof reactions.ReactionDirectMessage) {
           console.log('Offending message');
 
-          dataStore.isUserInterested(userMessage.userId, function(isInterested) {
+          dataStore.isUserInterested(userMessage.userId, (isInterested) => {
 
             if (isInterested) {
               console.log("User is interested");
@@ -61,6 +61,8 @@ class WordyBot {
             } else {
               console.log(userMessage.userId + " IS ***NOT**** INTERESTED");
             }
+          }, (error) => {
+            console.log(`DATA STORE ERROR: ${error}`);
           }); // is user interested callback
         } // reaction is direct message
       }

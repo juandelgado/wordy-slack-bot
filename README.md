@@ -17,8 +17,8 @@ Everyone part of Wordy's community, codebase and issue tracker is expected to fo
 ## Configuration
 
  * `SLACK_TOKEN`: Slack Bot token. You can create a bot and get a token in https://YOURSLACK.slack.com/services/new/bot. For more information you can read [Slack Bots documentation](https://api.slack.com/bot-users).
- * `FIREBASE_JSON_CONFIG`: path to the Firebase config JSON file.
- * `FIREBASE_DB_URL`: Firebase's database URL. 
+ * `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY`, `FIREBASE_DB_URL` if you want to provide persitance through Firebase.
+ * `WORDY_WEBSERVER_PORT` and `WORDY_WEBSERVER_HOST` for the webserver that handles the Slack commands.
 
 ## Development
 

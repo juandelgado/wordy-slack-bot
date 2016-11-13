@@ -1,0 +1,16 @@
+config:
+  - name: FIREBASE_PROJECT_ID
+    type: secret
+    global: false
+  - name: FIREBASE_CLIENT_EMAIL
+    type: secret
+    global: false
+  - name: FIREBASE_PRIVATE_KEY
+    type: secret
+    global: false
+  - name: FIREBASE_DB_URL
+    type: secret
+    global: false
+  - name: WORDY_WEBSERVER_HOST
+    default: '0.0.0.0'
+    global: false

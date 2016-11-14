@@ -1,8 +1,8 @@
 # Wordy
 
-Wordy is a Slack bot that helps you stay clear of common, but emotionally charged for some, words.
+Wordy is a Slack bot that helps you stay clear of common, but unnecessary gendered words and ableisms.
 
-Some examples are "guys" or ableisms such as "mad", "crazy", etc.
+Some examples are "guys", "mad", "crazy", etc.
 
 For now you can have a read at [WeAllJS take on it](http://wealljs.org/rfc-slackbot-language-shorthands):
 

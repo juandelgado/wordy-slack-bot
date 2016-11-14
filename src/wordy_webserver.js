@@ -1,4 +1,4 @@
-"use strict"
+'use strict';
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -17,7 +17,6 @@ class WordyWebServer {
     });
 
     this.webapp.post('/slack/command', (req, res) => {
-
       const command = req.body.command;
       const userId = req.body.user_id;
 

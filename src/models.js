@@ -1,4 +1,4 @@
-"use strict"
+'use strict';
 
 class UserMessage {
   constructor(userId, text) {

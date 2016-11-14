@@ -1,4 +1,4 @@
-"use strict"
+'use strict';
 
 const handler = require('./message_handler.js');
 const checker = require('./language_checker.js');
@@ -29,16 +29,14 @@ class WordyBot {
       const userMessage = handler.MessageHandler.getUserMessage(slackData);
 
       if (userMessage instanceof models.UserMessage) {
-
         const reaction = new checker.LanguageChecker(rules).check(userMessage);
 
         if (reaction instanceof reactions.ReactionDirectMessage) {
           console.log('Offending message');
 
           dataStore.isUserInterested(userMessage.userId, (isInterested) => {
-
             if (isInterested) {
-              console.log("User is interested");
+              console.log('User is interested');
 
               // TODO: this is ugly because apparently the only way to send a DM
               // is via the user name, which doesn't come from the slack_data object received.
@@ -57,9 +55,8 @@ class WordyBot {
                   }
                 }
               });
-
             } else {
-              console.log(userMessage.userId + " IS ***NOT**** INTERESTED");
+              console.log(`${userMessage.userId} IS ***NOT**** INTERESTED`);
             }
           }, (error) => {
             console.log(`DATA STORE ERROR: ${error}`);

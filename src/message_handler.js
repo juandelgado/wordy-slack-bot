@@ -1,4 +1,4 @@
-"use strict"
+'use strict';
 
 const models = require('./models.js');
 

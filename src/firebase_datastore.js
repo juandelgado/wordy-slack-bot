@@ -1,22 +1,22 @@
-"use strict"
+'use strict';
 
 // Reference:
 // https://firebase.google.com/docs/database/admin/start
 
 class FirebaseDataStore {
-  constructor(db){
+  constructor(db) {
     this.db = db;
   }
 
   isUserInterested(userId, successCallback, errorCallback) {
     this.db.ref(`users/${userId}`).once('value', (data) => {
-      if (successCallback){
+      if (successCallback) {
         const userData = data.val();
-        const interested = (userData != null)? userData.interested : false;
+        const interested = (userData != null) ? userData.interested : false;
         successCallback(interested);
       }
     }, (errorObject) => {
-      console.log("Firebase DataStore error: " + errorObject);
+      console.log(`Firebase DataStore error: ${errorObject}`);
       if (errorCallback) {
         errorCallback(errorObject.code);
       }
@@ -24,15 +24,13 @@ class FirebaseDataStore {
   }
 
   registerUser(userId, isInterested, successCallback, errorCallback) {
-    this.db.ref(`users/${userId}`).update({interested: isInterested}, function(error){
+    this.db.ref(`users/${userId}`).update({ interested: isInterested }, (error) => {
       if (error) {
-        if (errorCallback){
+        if (errorCallback) {
           errorCallback(error);
         }
-      } else {
-        if (successCallback){
-          successCallback();
-        }
+      } else if (successCallback) {
+        successCallback();
       }
     });
   }

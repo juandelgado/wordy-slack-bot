@@ -1,4 +1,4 @@
-"use strict"
+'use strict';
 
 const SlackBot = require('slackbots');
 const firebase = require('firebase-admin');
@@ -14,7 +14,7 @@ firebase.initializeApp({
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
     privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/(\\n)/g, '\n'),
   }),
-  databaseURL: process.env.FIREBASE_DB_URL
+  databaseURL: process.env.FIREBASE_DB_URL,
 });
 
 const ds = new dataStore.FirebaseDataStore(firebase.database());

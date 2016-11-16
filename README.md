@@ -10,7 +10,7 @@ For now you can have a read at [WeAllJS take on it](http://wealljs.org/rfc-slack
 
 ## Status
 
-[![Circle CI](https://circleci.com/gh/ustwo/wordy-slack-bot.png?style=shield&circle-token=787322a7f03da69a49eac6de138d1767bb444ed4)](https://circleci.com/gh/ustwo/wordy-slack-bot)
+[![Build Status](https://travis-ci.org/ustwo/wordy-slack-bot.svg?branch=master)](https://travis-ci.org/ustwo/wordy-slack-bot)
 
 ## Contributing
 

@@ -6,7 +6,8 @@
   "author": "ustwo Fampany",
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/",
+    "test": "npm run unit && npm run lint",
+    "unit": "./node_modules/mocha/bin/mocha test/",
     "lint": "./node_modules/eslint/bin/eslint.js src/ --no-ignore .eslintrc.js"
   },
   "dependencies": {

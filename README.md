@@ -8,6 +8,10 @@ For now you can have a read at [WeAllJS take on it](http://wealljs.org/rfc-slack
 
 > The enforcement process [...] is focused around being kind, and on accepting corrections and moving on peacefully.
 
+## Status
+
+[![Circle CI](https://circleci.com/gh/ustwo/wordy-slack-bot.png?style=shield&circle-token=787322a7f03da69a49eac6de138d1767bb444ed4)](https://circleci.com/gh/ustwo/wordy-slack-bot)
+
 ## Contributing
 
 Check our [contributing guidelines](./CONTRIBUTING.md).

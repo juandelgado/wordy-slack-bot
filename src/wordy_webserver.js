@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 // http://expressjs.com/en/advanced/best-practice-security.html
+const response = require('./wordy_webserver_response.js');
 
 class WordyWebServer {
   constructor(storage, port, host) {
@@ -12,41 +13,16 @@ class WordyWebServer {
     this.webapp.use(helmet());
     this.webapp.use(bodyParser.urlencoded({ extended: true }));
 
+    const webResponse = new response.WebServerResponse(storage);
+
     this.webapp.get('/', (req, res) => {
-      res.send('WordyBot');
+      res.send(response.WebServerResponse.getHome());
     });
 
     this.webapp.post('/slack/command', (req, res) => {
-      const command = req.body.command;
-      const userId = req.body.user_id;
-
-      console.log('Command received via hook');
-      console.log(`Command: ${command}`);
-      console.log(`User ID: ${userId}`);
-
-      switch (command) {
-        case '/wordy-in':
-          this.storage.registerUser(userId, true, () => {
-            console.log(`User ${userId} successfully registered`);
-            res.send('Thank you for registering.');
-          }, (error) => {
-            console.error(`Error trying to register user ${userId}, error: ${error}`);
-            res.send(`Ooops, something went wrong: ${error}`);
-          });
-          break;
-        case '/wordy-out':
-          this.storage.registerUser(userId, false, () => {
-            console.log(`User ${userId} successfully unregistered`);
-            res.send('Sad to see you go.');
-          }, (error) => {
-            console.error(`Error trying to unregister user ${userId}, error: ${error}`);
-            res.send(`Ooops, something went wrong: ${error}`);
-          });
-          break;
-        default:
-          console.error('Unknown command, ignoring');
-          break;
-      }
+      webResponse.processCommand(req, (commandResponse) => {
+        res.send(commandResponse);
+      });
     });
 
     this.webapp.listen(port, host, () => {

@@ -20,8 +20,9 @@ config:
     info: Firebase DB URL
     type: secret
     global: true
-  - name: WORDY_WEBSERVER_HOST
-    friendly_name: Webserver host
-    info: Host for the local webserver that handles commands
-    default: 0.0.0.0
+  - name: SLACK_COMMAND_TOKEN
+    type: secret
+    global: true
+  - name: SLACK_TEAM_ID
+    type: secret
     global: true

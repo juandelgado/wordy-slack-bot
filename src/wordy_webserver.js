@@ -5,29 +5,37 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 // http://expressjs.com/en/advanced/best-practice-security.html
 const response = require('./wordy_webserver_response.js');
+const auth = require('./wordy_webserver_auth.js');
 
 class WordyWebServer {
-  constructor(storage, port, host) {
-    this.storage = storage;
-    this.webapp = express();
-    this.webapp.use(helmet());
-    this.webapp.use(bodyParser.urlencoded({ extended: true }));
+  constructor(storage, port, host, slackCommandToken, slackTeamId) {
+    const webapp = express();
+    webapp.use(helmet());
+    webapp.use(bodyParser.urlencoded({ extended: true }));
+
+    const router = express.Router();
+    router.post('/slack/command', auth.validateCommand(slackCommandToken, slackTeamId));
+    webapp.use('/', router);
 
     const webResponse = new response.WebServerResponse(storage);
 
-    this.webapp.get('/', (req, res) => {
+    webapp.get('/', (req, res) => {
       res.send(response.WebServerResponse.getHome());
     });
 
-    this.webapp.post('/slack/command', (req, res) => {
+    webapp.post('/slack/command', (req, res) => {
       webResponse.processCommand(req, (commandResponse) => {
         res.send(commandResponse);
       });
     });
 
-    this.webapp.listen(port, host, () => {
+    this.server = webapp.listen(port, host, () => {
       console.log(`Wordy Web App up and running at http://${host}:${port}`);
     });
+  }
+
+  close(done) {
+    this.server.close(done);
   }
 }
 

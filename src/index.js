@@ -38,5 +38,7 @@ new bots.WordyBot(ds, slackBot, rules);
 
 const webServerPort = process.env.PORT || process.env.WORDY_WEBSERVER_PORT || 33333;
 const webServerHost = process.env.WORDY_WEBSERVER_HOST || '0.0.0.0';
+const slackCommandToken = process.env.SLACK_COMMAND_TOKEN;
+const slackTeamId = process.env.SLACK_TEAM_ID;
 
-new servers.WordyWebServer(ds, webServerPort, webServerHost);
+new servers.WordyWebServer(ds, webServerPort, webServerHost, slackCommandToken, slackTeamId);

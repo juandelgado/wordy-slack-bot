@@ -1,5 +1,8 @@
 'use strict';
 
+// This is Express middleware, simply not calling next()
+// stops the execution. More info:
+// http://expressjs.com/en/guide/writing-middleware.html
 function validateCommand(slackCommandToken, slackTeamId) {
   return (req, res, next) => {
     if (req.body.token === slackCommandToken && req.body.team_id === slackTeamId) {

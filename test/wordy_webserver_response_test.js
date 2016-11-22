@@ -4,20 +4,19 @@ const sinon = require('sinon');
 const response = require('../src/wordy_webserver_response.js');
 
 describe('Wordy WebServer Response', () => {
-  var mock_dataStore, mock_registerUser, mock_InRequest, mock_OutRequest, webResponse, userId, errorId;
+  var mockDataStore, mockRegisterUser, mockInRequest, mockOutRequest, mockUnknownRequest, mockCommandCallback, userId, errorId;
 
   beforeEach(function(){
     sandbox = sinon.sandbox.create();
 
-    mock_dataStore = {registerUser: () => {}};
-    mock_registerUser = sandbox.stub(mock_dataStore, 'registerUser');
-    mock_commandCallback = sandbox.spy();
-    mock_InRequest = {body: {command: '/wordy-in', user_id: userId}};
-    mock_OutRequest = {body: {command: '/wordy-out', user_id: userId}};
-    mock_UnknownRequest = {body: {command: '/wadus'}};
-    webResponse = new response.WebServerResponse(mock_dataStore);
     userId = 'XXXX';
     errorId = 'ERROR_XXXX';
+    mockDataStore = {registerUser: () => {}};
+    mockRegisterUser = sandbox.stub(mockDataStore, 'registerUser');
+    mockInRequest = {body: {command: '/wordy-in', user_id: userId}};
+    mockOutRequest = {body: {command: '/wordy-out', user_id: userId}};
+    mockUnknownRequest = {body: {command: '/wadus'}};
+    mockCommandCallback = sinon.spy();
   });
 
   afterEach(function(){
@@ -25,44 +24,44 @@ describe('Wordy WebServer Response', () => {
   });
 
   it('Should display a nice homepage', () => {
-    should.equal(response.WebServerResponse.getHome(), 'WordyBot');
+    should.equal(response.homeResponse(), 'WordyBot');
   });
 
   it('Should register a user', () => {
-    webResponse.processCommand(mock_InRequest, mock_commandCallback);
+    response.processCommand(mockDataStore, mockInRequest, mockCommandCallback);
 
-    mock_registerUser.args[0][2]();
+    mockRegisterUser.args[0][2]();
 
-    assert(mock_registerUser.calledWith(userId, true));
-    assert(mock_commandCallback.calledWith('Thank you for registering.'));
+    assert(mockRegisterUser.calledWith(userId, true));
+    assert(mockCommandCallback.calledWith('Thank you for registering.'));
   });
 
   it('Should unregister a user', () => {
-    webResponse.processCommand(mock_OutRequest, mock_commandCallback);
+    response.processCommand(mockDataStore, mockOutRequest, mockCommandCallback);
 
-    mock_registerUser.args[0][2]();
+    mockRegisterUser.args[0][2]();
 
-    assert(mock_registerUser.calledWith(userId, false));
-    assert(mock_commandCallback.calledWith('Sorry to see you go.'));
+    assert(mockRegisterUser.calledWith(userId, false));
+    assert(mockCommandCallback.calledWith('Sorry to see you go.'));
   });
 
   it('Should inform the user if there is trouble when opting-in', () => {
-    webResponse.processCommand(mock_InRequest, mock_commandCallback);
+    response.processCommand(mockDataStore, mockInRequest, mockCommandCallback);
 
-    mock_registerUser.args[0][3](errorId);
-    assert(mock_commandCallback.calledWith(`Ooops, something went wrong: ${errorId}`));
+    mockRegisterUser.args[0][3](errorId);
+    assert(mockCommandCallback.calledWith(`Ooops, something went wrong: ${errorId}`));
   });
 
   it('Should inform the user if there is trouble when opting-out', () => {
-    webResponse.processCommand(mock_OutRequest, mock_commandCallback);
+    response.processCommand(mockDataStore, mockOutRequest, mockCommandCallback);
 
-    mock_registerUser.args[0][3](errorId);
-    assert(mock_commandCallback.calledWith(`Ooops, something went wrong: ${errorId}`));
+    mockRegisterUser.args[0][3](errorId);
+    assert(mockCommandCallback.calledWith(`Ooops, something went wrong: ${errorId}`));
   });
 
   it('Should warn when not knowing what to do with a command', () => {
-    webResponse.processCommand(mock_UnknownRequest, mock_commandCallback);
+    response.processCommand(mockDataStore, mockUnknownRequest, mockCommandCallback);
 
-    assert(mock_commandCallback.calledWith('Unknown command.'));
+    assert(mockCommandCallback.calledWith('Unknown command.'));
   });
 });

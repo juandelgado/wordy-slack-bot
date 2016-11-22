@@ -1,6 +1,6 @@
 const assert = require('assert');
 const should = require('should');
-const models = require('../src/models.js');
+const messages = require('../src/messages.js');
 const handler = require('../src/message_handler.js');
 
 describe("Message handler", function(){
@@ -15,7 +15,7 @@ describe("Message handler", function(){
 
     const user_message = handler.MessageHandler.getUserMessage(slack_data);
 
-    const expected_user_message = new models.UserMessage(slack_data.user, slack_data.text);
+    const expected_user_message = new messages.UserMessage(slack_data.user, slack_data.text);
 
     user_message.equals(expected_user_message).should.be.true();
   });
@@ -33,6 +33,6 @@ describe("Message handler", function(){
 
     const user_message = handler.MessageHandler.getUserMessage(slack_data);
 
-    user_message.should.be.instanceOf(models.NoMessage);
+    user_message.should.be.instanceOf(messages.NoMessage);
   });
 });

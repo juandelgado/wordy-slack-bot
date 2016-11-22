@@ -10,5 +10,6 @@ RUN npm install
 
 # Bundle app source
 COPY src/*.js /usr/src/app/
+COPY config.json /usr/src/app/
 
 CMD [ "node", "index.js" ]

@@ -1,57 +1,54 @@
 'use strict';
 
-class WebServerResponse {
-  constructor(storage) {
-    this.storage = storage;
-  }
+// Private, not exported
+function userIn(storage, userId, callback) {
+  storage.registerUser(userId, true, () => {
+    console.log(`User ${userId} successfully registered`);
+    callback('Thank you for registering.');
+  }, (error) => {
+    console.error(`Error trying to register user ${userId}, error: ${error}`);
+    callback(`Ooops, something went wrong: ${error}`);
+  });
+}
 
-  static getHome() {
-    return 'WordyBot';
-  }
+function userOut(storage, userId, callback) {
+  storage.registerUser(userId, false, () => {
+    console.log(`User ${userId} successfully unregistered`);
+    callback('Sorry to see you go.');
+  }, (error) => {
+    console.error(`Error trying to unregister user ${userId}, error: ${error}`);
+    callback(`Ooops, something went wrong: ${error}`);
+  });
+}
 
-  processCommand(req, callback) {
-    const command = req.body.command;
-    const userId = req.body.user_id;
+function processCommand(storage, req, callback) {
+  const command = req.body.command;
+  const userId = req.body.user_id;
 
-    console.log('Command received');
-    console.log(`Command: ${command}`);
-    console.log(`User ID: ${userId}`);
+  console.log('Command received');
+  console.log(`Command: ${command}`);
+  console.log(`User ID: ${userId}`);
 
-    switch (command) {
-      case '/wordy-in':
-        this.userIn(userId, callback);
-        break;
-      case '/wordy-out':
-        this.userOut(userId, callback);
-        break;
-      default:
-        console.warn('Unknown command, ignoring');
-        callback('Unknown command.');
-        break;
-    }
-  }
+  const commandMap = {
+    '/wordy-in': userIn,
+    '/wordy-out': userOut,
+  };
 
-  userIn(userId, callback) {
-    this.storage.registerUser(userId, true, () => {
-      console.log(`User ${userId} successfully registered`);
-      callback('Thank you for registering.');
-    }, (error) => {
-      console.error(`Error trying to register user ${userId}, error: ${error}`);
-      callback(`Ooops, something went wrong: ${error}`);
-    });
-  }
+  const isValidCommand = Object.keys(commandMap).some(x => command === x);
 
-  userOut(userId, callback) {
-    this.storage.registerUser(userId, false, () => {
-      console.log(`User ${userId} successfully unregistered`);
-      callback('Sorry to see you go.');
-    }, (error) => {
-      console.error(`Error trying to unregister user ${userId}, error: ${error}`);
-      callback(`Ooops, something went wrong: ${error}`);
-    });
+  if (isValidCommand) {
+    commandMap[command](storage, userId, callback);
+  } else {
+    console.warn('Unknown command, ignoring');
+    callback('Unknown command.');
   }
 }
 
+function homeResponse() {
+  return 'WordyBot';
+}
+
 module.exports = {
-  WebServerResponse,
+  homeResponse,
+  processCommand,
 };

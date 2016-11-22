@@ -17,14 +17,12 @@ class WordyWebServer {
     router.post('/slack/command', auth.validateCommand(slackCommandToken, slackTeamId));
     webapp.use('/', router);
 
-    const webResponse = new response.WebServerResponse(storage);
-
     webapp.get('/', (req, res) => {
-      res.send(response.WebServerResponse.getHome());
+      res.send(response.homeResponse());
     });
 
     webapp.post('/slack/command', (req, res) => {
-      webResponse.processCommand(req, (commandResponse) => {
+      response.processCommand(storage, req, (commandResponse) => {
         res.send(commandResponse);
       });
     });

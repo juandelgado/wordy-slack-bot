@@ -15,26 +15,7 @@ class UserMessage {
 class NoMessage {
 }
 
-class Rule {
-  constructor(expression, reaction) {
-    this.expression = expression;
-    this.reaction = reaction;
-  }
-}
-
-class Rules {
-  constructor() {
-    this.rules = [];
-  }
-
-  add(rule) {
-    this.rules.push(rule);
-  }
-}
-
 module.exports = {
   UserMessage,
   NoMessage,
-  Rules,
-  Rule,
 };

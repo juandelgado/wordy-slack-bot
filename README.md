@@ -24,6 +24,7 @@ Everyone part of Wordy's community, codebase and issue tracker is expected to fo
  * `SLACK_COMMAND_TOKEN` and `SLACK_TEAM_ID` to validate that commands are coming from your team.
  * `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY`, `FIREBASE_DB_URL` if you want to provide persitance through Firebase.
  * `WORDY_WEBSERVER_PORT` and `WORDY_WEBSERVER_HOST` for the webserver that handles the Slack commands.
+ * `config.json`: Contains the terms and associated reactions.
 
 ## Development
 

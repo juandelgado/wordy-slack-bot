@@ -2,7 +2,7 @@
 
 const handler = require('./message_handler.js');
 const checker = require('./language_checker.js');
-const models = require('./models.js');
+const messages = require('./messages.js');
 const reactions = require('./reactions.js');
 
 class WordyBot {
@@ -28,7 +28,7 @@ class WordyBot {
     slackBot.on('message', (slackData) => {
       const userMessage = handler.MessageHandler.getUserMessage(slackData);
 
-      if (userMessage instanceof models.UserMessage) {
+      if (userMessage instanceof messages.UserMessage) {
         const reaction = new checker.LanguageChecker(rules).check(userMessage);
 
         if (reaction instanceof reactions.ReactionDirectMessage) {

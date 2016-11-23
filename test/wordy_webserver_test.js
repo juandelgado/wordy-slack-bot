@@ -90,4 +90,16 @@ describe('Wordy WebServer', () => {
     })
     .expect(200, 'Unvalid SLACK COMMAND TOKEN and / or SLACK TEAM ID', done);
   });
+
+  it('Should respond to a PING command with uptime', (done) => {
+    request(BASE_URL)
+    .post('/slack/command')
+    .type('form')
+    .send({
+      token: SLACK_COMMAND_TOKEN,
+      team_id: SLACK_TEAM_ID,
+      command: '/wordy-ping',
+    })
+    .expect(200, /Pong! Alive since /, done);
+  });
 });

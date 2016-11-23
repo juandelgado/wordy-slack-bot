@@ -1,5 +1,7 @@
 'use strict';
 
+const moment = require('moment');
+
 // Private, not exported
 function userIn(storage, userId, callback) {
   storage.registerUser(userId, true, () => {
@@ -21,6 +23,10 @@ function userOut(storage, userId, callback) {
   });
 }
 
+function ping(storage, userId, callback) {
+  callback(`Pong! Alive since ${moment.duration(process.uptime() * 1000).humanize()}`);
+}
+
 function processCommand(storage, req, callback) {
   const command = req.body.command;
   const userId = req.body.user_id;
@@ -32,6 +38,7 @@ function processCommand(storage, req, callback) {
   const commandMap = {
     '/wordy-in': userIn,
     '/wordy-out': userOut,
+    '/wordy-ping': ping,
   };
 
   const isValidCommand = Object.keys(commandMap).some(x => command === x);

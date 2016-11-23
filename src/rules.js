@@ -34,7 +34,7 @@ function rulesFromJson(json) {
     if (entry.term && entry.reaction) {
       rules.add(
         new Rule(
-          new RegExp(entry.term),
+          new RegExp(entry.term, 'i'),
           new reactions.ReactionDirectMessage(entry.reaction)
         )
       );

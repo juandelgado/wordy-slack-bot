@@ -23,7 +23,7 @@ function userOut(storage, userId, callback) {
   });
 }
 
-function ping(storage, userId, callback) {
+function ping(callback) {
   callback(`Pong! Alive since ${moment.duration(process.uptime() * 1000).humanize()}`);
 }
 
@@ -35,16 +35,18 @@ function processCommand(storage, req, callback) {
   console.log(`Command: ${command}`);
   console.log(`User ID: ${userId}`);
 
+  // We are wrapping the actual callbacks so they can have
+  // different method signatures.
   const commandMap = {
-    '/wordy-in': userIn,
-    '/wordy-out': userOut,
-    '/wordy-ping': ping,
+    '/wordy-in': () => userIn(storage, userId, callback),
+    '/wordy-out': () => userOut(storage, userId, callback),
+    '/wordy-ping': () => ping(callback),
   };
 
   const isValidCommand = Object.keys(commandMap).some(x => command === x);
 
   if (isValidCommand) {
-    commandMap[command](storage, userId, callback);
+    commandMap[command]();
   } else {
     console.warn('Unknown command, ignoring');
     callback('Unknown command.');

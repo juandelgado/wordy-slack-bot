@@ -34,6 +34,20 @@ class FirebaseDataStore {
       }
     });
   }
+
+  getInterestedUsers(successCallback, errorCallback) {
+    this.db.ref('users').orderByChild('interested').equalTo(true).once('value', (data) => {
+      if (successCallback) {
+        const totalRegisteredUsers = Object.keys(data.val()).length;
+        successCallback(totalRegisteredUsers);
+      }
+    }, (errorObject) => {
+      console.log(`Firebase DataStore error: ${errorObject}`);
+      if (errorCallback) {
+        errorCallback(errorObject.code);
+      }
+    });
+  }
 }
 
 module.exports = {

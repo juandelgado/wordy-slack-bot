@@ -3,6 +3,8 @@ const should = require('should');
 const request = require('supertest');
 const server = require('../src/wordy_webserver.js');
 const storage = require('../test/dummy_datastore.js');
+const analytics = require('../test/dummy_analytics.js');
+const slackGateway = require('../test/dummy_slack_gateway.js');
 
 // This is outside testing (booting up the server, making actual HTTP calls)
 // particularly around authentication
@@ -21,7 +23,11 @@ describe('Wordy WebServer', () => {
   const SLACK_TEAM_ID = 'SOME_SLACK_TEAM_ID';
 
   beforeEach(() => {
-    webServer = new server.WordyWebServer(new storage.DummyDataStore(), PORT, HOST, SLACK_COMMAND_TOKEN, SLACK_TEAM_ID);
+    webServer = new server.WordyWebServer(new slackGateway.DummySlackGateway(),
+                                          new storage.DummyDataStore(),
+                                          new analytics.DummyAnalytics(),
+                                          PORT, HOST,
+                                          SLACK_COMMAND_TOKEN, SLACK_TEAM_ID);
   });
 
   afterEach((done) => {

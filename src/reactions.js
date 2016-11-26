@@ -6,6 +6,7 @@ class ReactionNone {
 class ReactionDirectMessage {
   constructor(message) {
     this.message = message;
+    this.expression = null;
   }
 
   // YES, this needs the user_name, sadly not the ID as per:

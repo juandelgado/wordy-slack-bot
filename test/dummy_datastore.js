@@ -11,6 +11,10 @@ class DummyDataStore {
   registerUser(userId, isInterested, successCallback, errorCallback) {
     successCallback();
   }
+
+  getInterestedUsers(successCallback, errorCallback) {
+    successCallback(5);
+  }
 }
 
 module.exports = {

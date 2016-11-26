@@ -2,19 +2,21 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const helmet = require('helmet');
 // http://expressjs.com/en/advanced/best-practice-security.html
+const helmet = require('helmet');
 const response = require('./wordy_webserver_response.js');
-const auth = require('./wordy_webserver_auth.js');
+const serverAuth = require('./wordy_webserver_auth.js');
+const serverAnalytics = require('./wordy_webserver_analytics.js');
 
 class WordyWebServer {
-  constructor(storage, port, host, slackCommandToken, slackTeamId) {
+  constructor(gateway, storage, analytics, port, host, slackCommandToken, slackTeamId) {
     const webapp = express();
     webapp.use(helmet());
     webapp.use(bodyParser.urlencoded({ extended: true }));
 
     const router = express.Router();
-    router.post('/slack/command', auth.validateCommand(slackCommandToken, slackTeamId));
+    router.post('/slack/command', serverAnalytics.trackCommand(analytics));
+    router.post('/slack/command', serverAuth.validateCommand(slackCommandToken, slackTeamId));
     webapp.use('/', router);
 
     webapp.get('/', (req, res) => {
@@ -22,7 +24,7 @@ class WordyWebServer {
     });
 
     webapp.post('/slack/command', (req, res) => {
-      response.processCommand(storage, req, (commandResponse) => {
+      response.processCommand(gateway, analytics, storage, req, (commandResponse) => {
         res.send(commandResponse);
       });
     });

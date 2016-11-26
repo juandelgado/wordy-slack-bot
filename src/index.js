@@ -7,6 +7,8 @@ const bots = require('./wordy_bot.js');
 const servers = require('./wordy_webserver.js');
 const rules = require('./rules.js');
 const dataStore = require('./firebase_datastore.js');
+const analytics = require('./firebase_analytics.js');
+const slackGateway = require('./slack_gateway.js');
 
 // Pull relevant ENV vars into constants
 const { FIREBASE_PROJECT_ID,
@@ -21,8 +23,6 @@ const { FIREBASE_PROJECT_ID,
         PORT,
         } = process.env;
 
-console.log(FIREBASE_PROJECT_ID);
-
 firebase.initializeApp({
   credential: firebase.credential.cert({
     projectId: FIREBASE_PROJECT_ID,
@@ -32,12 +32,16 @@ firebase.initializeApp({
   databaseURL: FIREBASE_DB_URL,
 });
 
-const ds = new dataStore.FirebaseDataStore(firebase.database());
+const firebaseDataBase = firebase.database();
+const firebaseDataStore = new dataStore.FirebaseDataStore(firebaseDataBase);
+const firebaseAnalytics = new analytics.FirebaseAnalytics(firebaseDataBase);
 
 // TODO: error out if no token found
 const slackBot = new SlackBot({
   token: SLACK_TOKEN,
 });
+
+const gateway = new slackGateway.SlackGateway(slackBot);
 
 const rulesJson = JSON.parse(fs.readFileSync('./config.json', { encoding: 'utf8' }));
 const wordyRules = rules.rulesFromJson(rulesJson);
@@ -45,11 +49,15 @@ const wordyRules = rules.rulesFromJson(rulesJson);
 /* eslint-disable no-new */
 // While I understand the rule, I really prefer to have a class
 // and and instance here for consistency with the rest of the code.
-new bots.WordyBot(ds, slackBot, wordyRules);
+new bots.WordyBot(firebaseDataStore, firebaseAnalytics, slackBot, wordyRules);
 
 const webServerPort = PORT || WORDY_WEBSERVER_PORT || 33333;
 const webServerHost = WORDY_WEBSERVER_HOST || '0.0.0.0';
 const slackCommandToken = SLACK_COMMAND_TOKEN;
 const slackTeamId = SLACK_TEAM_ID;
 
-new servers.WordyWebServer(ds, webServerPort, webServerHost, slackCommandToken, slackTeamId);
+new servers.WordyWebServer(
+  gateway,
+  firebaseDataStore, firebaseAnalytics,
+  webServerPort, webServerHost,
+  slackCommandToken, slackTeamId);

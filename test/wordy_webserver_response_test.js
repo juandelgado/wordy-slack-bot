@@ -2,6 +2,8 @@ const assert = require('assert');
 const should = require('should');
 const sinon = require('sinon');
 const response = require('../src/wordy_webserver_response.js');
+const analytics = require('../test/dummy_analytics.js');
+const slackGateway = require('../test/dummy_slack_gateway.js');
 
 describe('Wordy WebServer Response', () => {
   var mockDataStore, mockRegisterUser, mockInRequest, mockOutRequest, mockUnknownRequest, mockCommandCallback, userId, errorId;
@@ -11,12 +13,14 @@ describe('Wordy WebServer Response', () => {
 
     userId = 'XXXX';
     errorId = 'ERROR_XXXX';
-    mockDataStore = {registerUser: () => {}};
+    mockDataStore = {registerUser: () => {}, getInterestedUsers: (successCallback, errorCallback) => { successCallback(5)}};
     mockRegisterUser = sandbox.stub(mockDataStore, 'registerUser');
     mockInRequest = {body: {command: '/wordy-in', user_id: userId}};
     mockOutRequest = {body: {command: '/wordy-out', user_id: userId}};
     mockUnknownRequest = {body: {command: '/wadus'}};
     mockCommandCallback = sinon.spy();
+    mockGateway = new slackGateway.DummySlackGateway();
+    mockAnalytics = new analytics.DummyAnalytics();
   });
 
   afterEach(function(){
@@ -28,7 +32,7 @@ describe('Wordy WebServer Response', () => {
   });
 
   it('Should register a user', () => {
-    response.processCommand(mockDataStore, mockInRequest, mockCommandCallback);
+    response.processCommand(mockGateway, mockAnalytics, mockDataStore, mockInRequest, mockCommandCallback);
 
     mockRegisterUser.args[0][2]();
 
@@ -37,7 +41,7 @@ describe('Wordy WebServer Response', () => {
   });
 
   it('Should unregister a user', () => {
-    response.processCommand(mockDataStore, mockOutRequest, mockCommandCallback);
+    response.processCommand(mockGateway, mockAnalytics, mockDataStore, mockOutRequest, mockCommandCallback);
 
     mockRegisterUser.args[0][2]();
 
@@ -46,21 +50,21 @@ describe('Wordy WebServer Response', () => {
   });
 
   it('Should inform the user if there is trouble when opting-in', () => {
-    response.processCommand(mockDataStore, mockInRequest, mockCommandCallback);
+    response.processCommand(mockGateway, mockAnalytics, mockDataStore, mockInRequest, mockCommandCallback);
 
     mockRegisterUser.args[0][3](errorId);
     assert(mockCommandCallback.calledWith(`Ooops, something went wrong: ${errorId}`));
   });
 
   it('Should inform the user if there is trouble when opting-out', () => {
-    response.processCommand(mockDataStore, mockOutRequest, mockCommandCallback);
+    response.processCommand(mockGateway, mockAnalytics, mockDataStore, mockOutRequest, mockCommandCallback);
 
     mockRegisterUser.args[0][3](errorId);
     assert(mockCommandCallback.calledWith(`Ooops, something went wrong: ${errorId}`));
   });
 
   it('Should warn when not knowing what to do with a command', () => {
-    response.processCommand(mockDataStore, mockUnknownRequest, mockCommandCallback);
+    response.processCommand(mockGateway, mockAnalytics, mockDataStore, mockUnknownRequest, mockCommandCallback);
 
     assert(mockCommandCallback.calledWith('Unknown command.'));
   });

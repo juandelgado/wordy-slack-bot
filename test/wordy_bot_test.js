@@ -12,7 +12,7 @@ describe('WordyBot', function(){
 
     sinon.spy(slackBot, 'on');
 
-    const bot = new bots.WordyBot(null, slackBot, null);
+    const bot = new bots.WordyBot(null, null, slackBot, null);
 
     assert(slackBot.on.calledWith('message'));
 

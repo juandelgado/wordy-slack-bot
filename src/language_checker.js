@@ -16,6 +16,7 @@ class LanguageChecker {
 
       if (rule.expression.test(message.text)) {
         reaction = rule.reaction;
+        reaction.expression = rule.expression.toString();
         break;
       }
     }

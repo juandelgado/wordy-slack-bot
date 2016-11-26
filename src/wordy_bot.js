@@ -6,7 +6,7 @@ const messages = require('./messages.js');
 const reactions = require('./reactions.js');
 
 class WordyBot {
-  constructor(dataStore, slackBot, rules) {
+  constructor(dataStore, analytics, slackBot, rules) {
     // TODO: extract the anonymous callbacks from each slackBot.on call
     // so they can be tested outside the event cycle
     slackBot.on('start', () => {
@@ -37,6 +37,7 @@ class WordyBot {
           dataStore.isUserInterested(userMessage.userId, (isInterested) => {
             if (isInterested) {
               console.log('User is interested');
+              analytics.trackTerm(reaction.expression, true);
 
               // TODO: this is ugly because apparently the only way to send a DM
               // is via the user name, which doesn't come from the slack_data object received.
@@ -56,10 +57,11 @@ class WordyBot {
                 }
               });
             } else {
-              console.log(`${userMessage.userId} IS ***NOT**** INTERESTED`);
+              console.info('User is ***NOT**** interested');
+              analytics.trackTerm(reaction.expression, false);
             }
           }, (error) => {
-            console.log(`DATA STORE ERROR: ${error}`);
+            console.error(`DATA STORE ERROR: ${error}`);
           }); // is user interested callback
         } // reaction is direct message
       }

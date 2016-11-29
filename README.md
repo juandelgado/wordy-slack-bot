@@ -6,60 +6,54 @@ We take inspiration from [We All JS language shorthands](http://wealljs.org/rfc-
 
 > The enforcement process [...] is focused around being kind, and on accepting corrections and moving on peacefully.
 
-You can see the full list of terms and reactions, which we have also borrowed from We All JS, in our [config.json](./config.json).
+You can see the full list of terms and reactions, which we have also mostly borrowed from We All JS, in our [config.json](./config.json).
 
-## Status
-
-[![Build Status](https://travis-ci.org/ustwo/wordy-slack-bot.svg?branch=master)](https://travis-ci.org/ustwo/wordy-slack-bot)
-
-## Contributing
-
-Check our [contributing guidelines](./CONTRIBUTING.md).
+## Community and Contributing
 
 Everyone part of Wordy's community, codebase and issue tracker is expected to follow our [Code of Conduct](./CODE_OF_CONDUCT.md).
 
-## Configuration
-
- * `SLACK_TOKEN`: Slack Bot token. You can create a bot and get a token in https://YOURSLACK.slack.com/services/new/bot. For more information you can read [Slack Bots documentation](https://api.slack.com/bot-users).
- * `SLACK_COMMAND_TOKEN` and `SLACK_TEAM_ID` to validate that commands are coming from your team.
- * `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY`, `FIREBASE_DB_URL` if you want to provide persitance through Firebase.
- * `WORDY_WEBSERVER_PORT` and `WORDY_WEBSERVER_HOST` for the webserver that handles the Slack commands.
- * `config.json`: Contains the terms and associated reactions.
-
-## Development
-
-Only if you want to modify / tinker with Wordy you'll need to install its dev dependencies:
-
- * Requisites: Node and NPM. Docker is optional.
- * `git clone git@github.com:ustwo/wordy-slack-bot.git`
- * `npm install`
-
-## Running Wordy
-
-Please make sure you have gone first through the [Configuration requirements](#configuration).
-
-### The right way (for some)
-
- * Install Docker.
- * Build the image: `make`
- * Run the image: `make run`
-
-### The easy way (for some)
-
-Wordy is a Node app so if you don't want to go down the Docker route for whatever reason, go through the [Development requirements](#development) and then run:
-
-```sh
-node src/index.js
-```
-
-## Test
-
- * `npm test` to run unit tests.
- * `npm run lint` to check source code format.
+For developers, please check our [development documentation](./docs/development.md) and [contributing guidelines](./CONTRIBUTING.md).
 
 ## Documentation
 
-TBD.
+### How does it work
+
+Wordy monitors the channels where it is invited to for a given set of terms or expressions. If it comes across one of them, and the user is registered, it'll trigger a reaction, most likely in the form of a direct message that only the person can see (no public shaming).
+
+**It is important to note that Wordy will only monitor the channels that it has been invited to and also the people that subscribe to it.**
+
+The full list of terms are: "crazy", "mad", "guys", "stupid", "lame" and "spaz" as described in the [configuration JSON file](./config.json). 
+
+If you want Wordy to help you out, then you need to:
+
+ * Subscribe using the `/wordy-in` command.
+ * Invite Wordy to a channel or channels using `@wordy` like you would do with any other Slack member. Please see below a note on security and confidentiality.
+
+From that point onwards Wordy will keep an eye on your messages on those channels and gently remind you if you slip.
+
+### Commands
+
+ * `/wordy-in`: to subscribe.
+ * `/wordy-out`: to unsubscribe.
+ * `/wordy-ping`: to check if Wordy is up and running.
+
+### Getting your own Wordy
+
+Getting Wordy up and running for your Slack currently is not the most straightforward process. You can get more info in the [development docs](./docs/development.md), but you will need:
+
+ * To be an admin of a Slack organization, so you can create an app and a bot.
+ * Some server to run Wordy. You can roll your own or maybe use something like [BeepBoop](https://beepboophq.com/).
+ * A Firebase account since Wordy currently uses Firebase for permanent storage and analytics. The ground work to implement other providers is there, but only Firebase is in place right now.
+
+### Confidentiality and privacy
+
+Please note that _any_ Slack bot has the potential to send every single word said on your Slack to a 3rd party.
+
+Also note that Wordy keeps some analytics, even if mostly anonymous. To be precise:
+
+ * A list of Slack user IDs of the users that have opted-in or opted-out, so it only engages with the people that are interested.
+ * An anonymous event for every time someone, subscribed or not, posts a message that matches one of the monitored terms. There is no information about which user did it, only that it happened.
+ * An anonymous event for every time someone has used any of the [Wordy commands](#commands).
 
 ## Maintainers
 

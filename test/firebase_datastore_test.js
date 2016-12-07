@@ -117,6 +117,13 @@ describe('Firebase Data Store', function(){
     assert(mockSuccessCallback.calledWithExactly(2));
   });
 
+  it('Should return 0 as the number of users registered if the table is empty', () => {
+    ds.getInterestedUsers(mockSuccessCallback, mockErrorCallback);
+
+    mockOnce.args[0][1]({val: () => {return null;}});
+    assert(mockSuccessCallback.calledWithExactly(0));
+  });
+
   it('Should call the error callback if cant retrive number of registered users', () => {
     ds.getInterestedUsers(mockSuccessCallback, mockErrorCallback);
 

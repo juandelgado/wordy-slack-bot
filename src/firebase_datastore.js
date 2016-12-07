@@ -38,7 +38,10 @@ class FirebaseDataStore {
   getInterestedUsers(successCallback, errorCallback) {
     this.db.ref('users').orderByChild('interested').equalTo(true).once('value', (data) => {
       if (successCallback) {
-        const totalRegisteredUsers = Object.keys(data.val()).length;
+        let totalRegisteredUsers = 0;
+        if (data.val() != null) {
+          totalRegisteredUsers = Object.keys(data.val()).length;
+        }
         successCallback(totalRegisteredUsers);
       }
     }, (errorObject) => {

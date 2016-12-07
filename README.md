@@ -18,7 +18,7 @@ For developers, please check our [development documentation](./docs/development.
 
 ### How does it work
 
-Wordy monitors the channels where it is invited to for a given set of terms or expressions. If it comes across one of them, and the user is registered, it'll trigger a reaction, most likely in the form of a direct message that only the person can see (no public shaming).
+Wordy monitors the channels where it is invited to for a given set of terms or expressions. If it comes across one of them, and the user has explicitly registered interest, it'll trigger a reaction, most likely in the form of a direct message that only the person can see (no public shaming).
 
 **It is important to note that Wordy will only monitor the channels that it has been invited to and also the people that subscribe to it.**
 
@@ -39,7 +39,7 @@ From that point onwards Wordy will keep an eye on your messages on those channel
 
 ### Getting your own Wordy
 
-Getting Wordy up and running for your Slack currently is not the most straightforward process. You can get more info in the [development docs](./docs/development.md), but you will need:
+Getting Wordy up and running for your Slack isn't currently the most straightforward process. You can get more info in the [development docs](./docs/development.md), but you will need:
 
  * To be an admin of a Slack organization, so you can create an app and a bot.
  * Some server to run Wordy. You can roll your own or maybe use something like [BeepBoop](https://beepboophq.com/).
@@ -47,7 +47,7 @@ Getting Wordy up and running for your Slack currently is not the most straightfo
 
 ### Confidentiality and privacy
 
-Please note that _any_ Slack bot has the potential to send every single word said on your Slack to a 3rd party.
+Please note that _any_ Slack bot has the potential to send every single word said on your Slack to a 3rd party service. You should only use 3rd party services that you really trust or host Wordy yourself. If you are a client services company you might want to check you are not breaking NDAs, etc.
 
 Also note that Wordy keeps some analytics, even if mostly anonymous. To be precise:
 

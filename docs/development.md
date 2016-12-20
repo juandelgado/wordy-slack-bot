@@ -8,7 +8,7 @@
 
  * `SLACK_TOKEN`: Slack Bot token. You can create a bot and get a token in `https://YOURSLACK.slack.com/services/new/bot`. For more information you can read [Slack Bots documentation](https://api.slack.com/bot-users).
  * `SLACK_COMMAND_TOKEN` and `SLACK_TEAM_ID` to validate that commands are coming from your team.
- * `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY`, `FIREBASE_DB_URL` if you want to provide persitance through Firebase.
+ * `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY`, `FIREBASE_DB_URL` to provide persitance through Firebase.
  * `WORDY_WEBSERVER_PORT` and `WORDY_WEBSERVER_HOST` for the webserver that handles the Slack commands.
  * `config.json`: Contains the terms and associated reactions.
 

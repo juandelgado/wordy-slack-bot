@@ -2,6 +2,10 @@
 
 const firebase = require('firebase-admin');
 
+// Server side time stamp, more here:
+// https://firebase.google.com/docs/reference/android/com/google/firebase/database/ServerValue.html#TIMESTAMP
+const timestamp = firebase.database.ServerValue.TIMESTAMP;
+
 function trackEvent(db, path, value) {
   db.ref(path).push(value, (error) => {
     if (error) {
@@ -10,27 +14,21 @@ function trackEvent(db, path, value) {
   });
 }
 
-// Server side time stamp, more here:
-// https://firebase.google.com/docs/reference/android/com/google/firebase/database/ServerValue.html#TIMESTAMP
-function t() {
-  return firebase.database.ServerValue.TIMESTAMP;
-}
-
 class FirebaseAnalytics {
   constructor(db) {
     this.db = db;
   }
 
   trackCommand(command) {
-    trackEvent(this.db, '/analytics/commands', { command, timestamp: t() });
+    trackEvent(this.db, '/analytics/commands', { command, timestamp });
   }
 
   trackUsers(total, interested) {
-    trackEvent(this.db, '/analytics/users', { total, interested, timestamp: t() });
+    trackEvent(this.db, '/analytics/users', { total, interested, timestamp });
   }
 
   trackTerm(term, isInterested) {
-    trackEvent(this.db, '/analytics/terms', { term, isInterested, timestamp: t() });
+    trackEvent(this.db, '/analytics/terms', { term, isInterested, timestamp });
   }
 }
 

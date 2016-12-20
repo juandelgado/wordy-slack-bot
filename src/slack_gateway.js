@@ -8,9 +8,7 @@ class SlackGateway {
   getTotalUsers(successCallback, errorCallback) {
     this.slackBot.getUsers().then((usersData) => {
       successCallback(usersData.members.length);
-    }, (error) => {
-      errorCallback(error);
-    });
+    }, errorCallback);
   }
 }
 
